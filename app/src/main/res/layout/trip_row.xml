@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    app:cardCornerRadius="8dp"
+    android:clickable="true"
+    >
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/trip_name_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="Name"
+            android:textAlignment="center"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/trip_description_list"
+            android:padding="10dp"
+            android:paddingTop="15dp"
+            android:paddingEnd="15dp"
+            android:paddingStart="10dp"
+            android:text="Description"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tripRowId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ID#" />
+    </LinearLayout>
+
+
+
+</androidx.cardview.widget.CardView>

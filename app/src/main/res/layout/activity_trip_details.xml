@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/AppTheme.AppBarOverlay"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TripDetailsActivity">
+
+    <TextView
+        android:id="@+id/travel_buds"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="Travel Buddies"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/travel_buds_recycler"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.015"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/trip_detials_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1800dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="140dp"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"
+        android:text="ID: 00000000"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/travel_buds"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.884" />
+
+    <TextView
+        android:id="@+id/trip_details_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text=""
+        android:textSize="50sp"
+        app:layout_constraintBottom_toTopOf="@+id/trip_detials_id"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/proposed_flights"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Proposed Flights"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/proposed_flights_recycler"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/trip_detials_id"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/proposed_flights_recycler"
+        android:layout_width="396dp"
+        android:layout_height="425dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/flight_search_button" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/travel_buds_recycler"
+        android:layout_width="396dp"
+        android:layout_height="69dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="76dp"
+        app:layout_constraintBottom_toTopOf="@+id/proposed_flights_recycler"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/flight_search_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="240dp"
+        android:layout_marginEnd="8dp"
+        android:text="Search &amp; Propose Flights"
+        android:textColor="@color/colorAccent"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/proposed_flights"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

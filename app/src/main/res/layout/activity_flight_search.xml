@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/search_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FlightSearchActivity">
+
+    <TextView
+        android:id="@+id/flight_search_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginEnd="8dp"
+        android:gravity="center"
+        android:text="Flight Search"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/origin_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:ems="10"
+        android:hint="Origin"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/flight_search_title" />
+
+    <EditText
+        android:id="@+id/destination_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:ems="10"
+        android:hint="Destination"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/origin_text" />
+
+    <RadioButton
+        android:id="@+id/one_way_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="8dp"
+        android:text="One way"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.925"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/destination_text" />
+
+    <EditText
+        android:id="@+id/departure_date_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="8dp"
+        android:ems="10"
+        android:hint="Departure date"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/one_way_button" />
+
+    <EditText
+        android:id="@+id/return_date_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="8dp"
+        android:ems="10"
+        android:hint="Return date"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/departure_date_text" />
+
+    <TextView
+        android:id="@+id/travel_class_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="8dp"
+        android:text="Travel Class:"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.026"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/return_date_text" />
+
+    <RadioGroup
+        android:id="@+id/radio_group"
+        android:layout_width="331dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="8dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.281"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/travel_class_label">
+
+        <!-- In RadioGroup create the 1 Radio Button-->
+        <!-- like this we will add some more Radio Button-->
+        <RadioButton
+            android:id="@+id/economy_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/radio_group"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:text="Economy"
+            android:textSize="10sp" />
+
+
+        <RadioButton
+            android:id="@+id/premium_button"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:text="Premium-Economy"
+            android:textSize="10sp" />
+
+        <RadioButton
+            android:id="@+id/business_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:text="Business"
+            android:textSize="10sp" />
+
+        <RadioButton
+            android:id="@+id/first_class_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:text="First"
+            android:textSize="10sp" />
+
+
+    </RadioGroup>
+
+
+    <Button
+        android:id="@+id/submit_search_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Search"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radio_group"
+        app:layout_constraintVertical_bias="0.336" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

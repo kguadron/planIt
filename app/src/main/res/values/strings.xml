@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">PlanIt</string>
+    <string name="title">PlanIt</string>
+    <string name="subtitle">Plan group travels. \n Travel the planet. </string>
+    <string name="get_started_text">Get started</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="login_text">Login</string>
+    <string name="or_text">or</string>
+    <string name="create_account_text">Create Account</string>
+    <string name="username_hint">Username</string>
+    <string name="new_trip_details">New Trip Details</string>
+    <string name="trip_name">Trip Name:</string>
+    <string name="trip_description">Trip \n Description:</string>
+    <string name="hint_name">Name</string>
+    <string name="hint_description">Optional</string>
+    <string name="create_trip">Create</string>
+    <string name="add_trip_to_list_button">Create New Trip</string>
+    <string name="find_existing_trip_button">Find Existing Trip</string>
+    <string name="your_trips_title">Your Trips</string>
+    <string name="menu_title">Create New Trip</string>
+    <string name="signout">Signout</string>
+    <string name="list_create_trip_hint">You have 0 trips</string>
+    <string name="title_activity_trip_details">TripDetailsActivity</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+</resources>
