@@ -1,5 +1,6 @@
 package com.example.planit;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -25,8 +27,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -54,6 +60,8 @@ public class FlightSearchActivity extends AppCompatActivity implements View.OnCl
 
     RequestQueue queue;
 
+    private String tripId;
+
     private EditText originText;
     private EditText destinationText;
     private RadioButton oneWayButton;
@@ -61,8 +69,9 @@ public class FlightSearchActivity extends AppCompatActivity implements View.OnCl
     private EditText returnDate;
     private RadioGroup radioGroup;
     private Button submitSearchButton;
-    private List<FlightParams> flightParams = new ArrayList<>();
+    private ProgressBar progressBar;
     private String url;
+    private List<FlightParams> flightParams = new ArrayList<>();
     private List<FlightItinerary> flightList = new ArrayList<>();
 
     private RecyclerView recyclerView;
@@ -71,9 +80,9 @@ public class FlightSearchActivity extends AppCompatActivity implements View.OnCl
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
     private FirebaseUser user;
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    //Add collection reference later
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private CollectionReference collectionReference = db.collection("Flights");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,10 +98,13 @@ public class FlightSearchActivity extends AppCompatActivity implements View.OnCl
         departureDate = findViewById(R.id.departure_date_text);
         returnDate = findViewById(R.id.return_date_text);
         radioGroup = findViewById(R.id.radio_group);
+        progressBar = findViewById(R.id.flight_search_progress);
         submitSearchButton = findViewById(R.id.submit_search_button);
         submitSearchButton.setOnClickListener(this);
-    }
 
+
+        tripId = getIntent().getStringExtra("TRIP_ID");
+    }
 
     @Override
     public void onClick(View view) {
@@ -102,10 +114,10 @@ public class FlightSearchActivity extends AppCompatActivity implements View.OnCl
 
                 generateFlightList(new AnswerListAsyncResponse() {
                     @Override
-                    public void processFinished(List<FlightItinerary> flightArrayList) {
+                    public void processFinished(final List<FlightItinerary> flightArrayList) {
                         // this is where the list is ready and the response data can be used
                         // to generate the list that users see ==> recycler view built here
-
+                        progressBar.setVisibility(View.INVISIBLE);
                         Log.d("at end" ,"flightList:" + flightArrayList.size());
 
                         setContentView(R.layout.activity_search_results);
@@ -119,68 +131,36 @@ public class FlightSearchActivity extends AppCompatActivity implements View.OnCl
                         recyclerView.setAdapter(resultsRecyclerAdapter);
                         resultsRecyclerAdapter.notifyDataSetChanged();
 
+                        resultsRecyclerAdapter.setOnItemClickListner(new SearchResultsRecyclerAdapter.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(int position) {
+                                FlightItinerary chosenFlight = flightArrayList.get(position);
+                                chosenFlight.setTripId(tripId);
+
+                                collectionReference.add(chosenFlight)
+                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                            @Override
+                                            public void onSuccess(DocumentReference documentReference) {
+
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+
+                                            }
+                                        });
+                            }
+                        });
+
                     }
                 });
-
-//              Log.d("TAG", "generate params KEY: " + generateParams().get(1).getKey());
-//                Log.d("TAG", "generate params Value: " + generateParams().get(1).getValue());
-//                Log.d("TAG", "flight params size" + flightParams.size());
-//                Log.d("TAG", "generated URL:" + generateUrl(flightParams));
-
-
-//                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
-//                        url, null,
-//                        new Response.Listener<JSONObject>() {
-//                            @Override
-//                            public void onResponse(JSONObject response) {
-//                                Log.d("JSON:", "on response" + response);
-//                                try {
-//                                    Log.d("JSON title", "response title " + response.getString("title"));
-//
-//                                } catch (JSONException e) {
-//                                    e.printStackTrace();
-//                                }
-//                            }
-//                        }, new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//                        Log.d("Error", "onErrorResponse: " + error.getMessage());
-//                    }
-//                });
-//
-//                //JSONArrayRequest
-//                JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET,
-//                        "https://jsonplaceholder.typicode.com/todos", null, new Response.Listener<JSONArray>() {
-//                    @Override
-//                    public void onResponse(JSONArray response) {
-//                        for (int i = 0; i < response.length(); i++) {
-//                            try {
-//                                JSONObject jsonObject = response.getJSONObject(i);
-//                                Log.d("JSON", "onResponse: " + jsonObject.getString("title"));
-//                            } catch (JSONException e) {
-//                                e.printStackTrace();
-//                            }
-//                        }
-//                    }
-//                }, new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//                        Log.d("Error", "OnErrorResponse: " +error.getMessage());
-//                    }
-//                });
-//
-//                queue.add(jsonArrayRequest);
-
-
-
                 break;
             // Another case here
         }
     }
 
     private List<FlightParams> generateParams() {
-//        List<FlightParams> flightParams = new ArrayList<>();
-
         String origin = originText.getText().toString().trim();
         String destination = destinationText.getText().toString().trim();
         String departure = departureDate.getText().toString().trim();
@@ -209,12 +189,10 @@ public class FlightSearchActivity extends AppCompatActivity implements View.OnCl
     }
 
     public List<FlightItinerary> generateFlightList(final AnswerListAsyncResponse callBack) {
-
-//        final List<Object> flightList = new ArrayList<>();
         generateParams();
         url = generateUrl(flightParams);
         Log.d("B4REQUEST", "URL:" + url);
-
+        progressBar.setVisibility(View.VISIBLE);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
                         url, null,
@@ -310,6 +288,7 @@ public class FlightSearchActivity extends AppCompatActivity implements View.OnCl
 
                                 } catch (JSONException e) {
                                     e.printStackTrace();
+                                    progressBar.setVisibility(View.INVISIBLE);
                                     Toast.makeText(FlightSearchActivity.this,
                                             "Search timed out. \n Please try again",
                                             Toast.LENGTH_LONG)
@@ -333,7 +312,7 @@ public class FlightSearchActivity extends AppCompatActivity implements View.OnCl
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap();
-                headers.put("Authorization", "Bearer jGoxabbOO30k5Rw4vTo4jwnGNUUy");
+                headers.put("Authorization", "Bearer 8s07WAuqKvOztR341A476l6nyJlD");
                 return headers;
             }
         };
@@ -344,6 +323,4 @@ public class FlightSearchActivity extends AppCompatActivity implements View.OnCl
 
         return flightList;
     }
-
-
 }

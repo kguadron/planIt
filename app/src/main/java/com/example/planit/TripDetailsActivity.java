@@ -32,6 +32,8 @@ import model.Trip;
 
 public class TripDetailsActivity extends AppCompatActivity {
 
+    private String tripId;
+
     private TextView tripNameText;
     private TextView idText;
     private Button flightSearchButton;
@@ -57,15 +59,8 @@ public class TripDetailsActivity extends AppCompatActivity {
         proposedFlightsRecycler = findViewById(R.id.proposed_flights_recycler);
         travelBudsRecycler = findViewById(R.id.travel_buds_recycler);
 
-        flightSearchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(TripDetailsActivity.this, FlightSearchActivity.class));
-            }
-        });
-
         // Gets tripId value from TripListActivity
-        String tripId = getIntent().getStringExtra("TRIP_ID");
+        tripId = getIntent().getStringExtra("TRIP_ID");
         idText.setText("TRIP ID: " + tripId);
 
         collectionReference.whereEqualTo("tripId", tripId).get()
@@ -81,6 +76,17 @@ public class TripDetailsActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
+
+        flightSearchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(TripDetailsActivity.this,
+                        FlightSearchActivity.class);
+                intent.putExtra("TRIP_ID", tripId);
+                startActivity(intent);
+
+            }
+        });
     }
 
     @Override

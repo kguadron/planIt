@@ -40,6 +40,7 @@ public class TripListActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener authStateListener;
     private FirebaseUser user;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+
     //private StorageReference storageReference;
     private List<Trip> tripList;
 

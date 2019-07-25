@@ -22,14 +22,14 @@ import model.Trip;
 public class SearchResultsRecyclerAdapter extends RecyclerView.Adapter<SearchResultsRecyclerAdapter.ViewHolder> {
     private Context context;
     private List<FlightItinerary> flightList;
-    private SearchResultsRecyclerAdapter.OnItemClickListener clickListner;
+    private SearchResultsRecyclerAdapter.OnItemClickListener clickListener;
 
     public interface OnItemClickListener {
         void onItemClick(int position);
     }
 
     public void setOnItemClickListner(SearchResultsRecyclerAdapter.OnItemClickListener listener){
-        clickListner = listener;
+        clickListener = listener;
     }
 
     public SearchResultsRecyclerAdapter(Context context, List<FlightItinerary> flightList) {
@@ -108,7 +108,12 @@ public class SearchResultsRecyclerAdapter extends RecyclerView.Adapter<SearchRes
             proposeButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    // add to db here
+                    if (clickListener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION){
+                            clickListener.onItemClick(position);
+                        }
+                    }
 
                 }
             });
