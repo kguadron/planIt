@@ -29,6 +29,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -59,6 +60,7 @@ public class TripDetailsActivity extends AppCompatActivity  {
     private TextView tripNameText;
     private TextView idText;
     private Button flightSearchButton;
+    String tripName;
 
     private RecyclerView proposedFlightsRecycler;
     private List<FlightItinerary> flightList = new ArrayList<>();
@@ -106,15 +108,33 @@ public class TripDetailsActivity extends AppCompatActivity  {
 
         // db query to display trip name
         tripsCollection.whereEqualTo("tripId", tripId).get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        for (QueryDocumentSnapshot trips : queryDocumentSnapshots) {
-                            Trip trip = trips.toObject(Trip.class);
-                            tripNameText.setText(trip.getName());
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                if (TextUtils.isEmpty(tripNameText.getText())) {
+                                    tripName = document.get("name").toString().trim();
+                                    Log.d("TRIP NAME", "onSuccess: DOCUMENT " + document);
+                                    Log.d("TRIP NAME", "onSuccess: trip name " + tripName);
+                                    tripNameText.setText(tripName);
+                                } else {
+                                    Log.d("TRIP NAME", "onComplete: tripName is not empty: " + tripNameText.getText());
+                                }
+                            }
+                        } else {
+                            Log.d("TRIP NAME", "onComplete: task not successful" + tripName);
                         }
                     }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("TRIP NAME", "onFailure: trip query " + e.getMessage());
+                    }
                 });
+
+
 
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
@@ -126,7 +146,6 @@ public class TripDetailsActivity extends AppCompatActivity  {
                         FlightSearchActivity.class);
                 intent.putExtra("TRIP_ID", tripId);
                 startActivity(intent);
-
             }
         });
     }
@@ -161,13 +180,6 @@ public class TripDetailsActivity extends AppCompatActivity  {
                                                                 userList);
                                                         travelBudsRecycler.setAdapter(usersRecyclerAdapter);
                                                         usersRecyclerAdapter.notifyDataSetChanged();
-
-//                                                        proposedFlightsRecyclerAdapter = new ProposedFlightsRecyclerAdapter(TripDetailsActivity.this,
-//                                                                flightList);
-//                                                        proposedFlightsRecycler.setAdapter(proposedFlightsRecyclerAdapter);
-//                                                        proposedFlightsRecyclerAdapter.notifyDataSetChanged();
-
-
                                                     }
                                                 }
                                             })
