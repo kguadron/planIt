@@ -92,17 +92,6 @@ public class ProposedFlightsRecyclerAdapter extends RecyclerView.Adapter<Propose
         } else if (flightItinerary.getUserVoted().size() >= 10) {
             viewHolder.votes.setTextColor(Color.parseColor("#D81B60"));
         }
-
-
-
-
-
-
-
-
-
-
-
     }
 
     @Override
@@ -150,7 +139,6 @@ public class ProposedFlightsRecyclerAdapter extends RecyclerView.Adapter<Propose
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
                             clickListener.onItemClick(position);
-//                            voteButton.setVisibility(View.INVISIBLE);
                         }
                     }
                 }

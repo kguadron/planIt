@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -12,7 +14,9 @@ import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
@@ -45,6 +49,7 @@ import org.json.JSONObject;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -78,6 +83,8 @@ public class FlightSearchActivity extends AppCompatActivity implements View.OnCl
     private RecyclerView recyclerView;
     private SearchResultsRecyclerAdapter resultsRecyclerAdapter;
 
+    DatePickerDialog.OnDateSetListener dateSetListener;
+
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
     private FirebaseUser user;
@@ -103,9 +110,78 @@ public class FlightSearchActivity extends AppCompatActivity implements View.OnCl
         submitSearchButton = findViewById(R.id.submit_search_button);
         submitSearchButton.setOnClickListener(this);
 
+        Calendar calendar = Calendar.getInstance();
+
 
         tripId = getIntent().getStringExtra("TRIP_ID");
+        final int year = calendar.get(Calendar.YEAR);
+        final int month = calendar.get(Calendar.MONTH);
+        final int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+
+        departureDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                closeKeyboard();
+                DatePickerDialog datePickerDialog = new DatePickerDialog(
+                        FlightSearchActivity.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int month, int day) {
+                                month = month + 1;
+                                String date;
+                                if (month < 10 && day < 10) {
+                                    date = year + "-0" + month + "-0" + day;
+                                } else if (day < 10) {
+                                    date = year + "-" + month + "-0" + day;
+                                } else if (month < 10) {
+                                    date = year + "-0" + month + "-" + day;
+                                } else {
+                                    date = year + "-" + month + "-" + day;
+                                }
+                                departureDate.setText(date);
+                            }
+                        }, year, month, day);
+                datePickerDialog.show();
+            }
+        });
+
+        returnDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                closeKeyboard();
+                DatePickerDialog datePickerDialog = new DatePickerDialog(
+                        FlightSearchActivity.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int month, int day) {
+                                month = month + 1;
+                                String date;
+                                if (month < 10 && day < 10) {
+                                    date = year + "-0" + month + "-0" + day;
+                                } else if (day < 10) {
+                                    date = year + "-" + month + "-0" + day;
+                                } else if (month < 10) {
+                                    date = year + "-0" + month + "-" + day;
+                                } else {
+                                    date = year + "-" + month + "-" + day;
+                                }
+                                returnDate.setText(date);
+                            }
+                        }, year, month, day);
+                datePickerDialog.show();
+            }
+        });
     }
+
+    private void closeKeyboard() {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
 
     @Override
     public void onClick(View view) {
