@@ -10,17 +10,19 @@ public class FlightItinerary {
     private List<Flight> flights = new ArrayList<>();
     private Double totalPrice;
     private List<String> userVoted = new ArrayList<>();
+    private Integer voteCount = 0;
     private String tripId;
     private String flightId;
 
     public FlightItinerary() { } // empty constructor so that the flightItinerary doesn't need all the parameters
 
-    public FlightItinerary(List<Flight> flights, Double totalPrice, List<String> userVoted, String tripId, String flightId) {
+    public FlightItinerary(List<Flight> flights, Double totalPrice, List<String> userVoted, String tripId, String flightId, Integer voteCount) {
         this.flights = flights;
         this.totalPrice = totalPrice;
         this.userVoted = userVoted;
         this.tripId = tripId;
         this.flightId = flightId;
+        this.voteCount = voteCount;
     }
 
 //    @Override
@@ -90,5 +92,13 @@ public class FlightItinerary {
 
     public void setFlightId(String flightId) {
         this.flightId = flightId;
+    }
+
+    public Integer getVoteCount() {
+        return voteCount;
+    }
+
+    public void setVoteCount(Integer voteCount) {
+        this.voteCount = voteCount;
     }
 }

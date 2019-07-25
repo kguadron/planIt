@@ -14,6 +14,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
@@ -36,6 +37,7 @@ import android.widget.Toast;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import model.FlightItinerary;
@@ -146,9 +148,9 @@ public class TripDetailsActivity extends AppCompatActivity  {
 
 
                                     chosenFlight.getUserVoted().add(TripApi.getInstance().getUserId());
+                                    chosenFlight.setVoteCount(chosenFlight.getUserVoted().size());
                                     Log.d("on VOTE click", "user array size: " + chosenFlight.getUserVoted().size());
 
-//                                  collectionReference.document(trip.getTripId()).set(trip, SetOptions.merge());
                                     flightsCollection.document(chosenFlight.getFlightId()).set(chosenFlight, SetOptions.merge());
                                     proposedFlightsRecyclerAdapter.notifyDataSetChanged();
                                 }
@@ -162,7 +164,6 @@ public class TripDetailsActivity extends AppCompatActivity  {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-
                     }
                 });
     }
