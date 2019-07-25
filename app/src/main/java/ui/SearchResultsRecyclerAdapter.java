@@ -112,6 +112,7 @@ public class SearchResultsRecyclerAdapter extends RecyclerView.Adapter<SearchRes
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION){
                             clickListener.onItemClick(position);
+                            proposeButton.setVisibility(View.INVISIBLE);
                         }
                     }
 

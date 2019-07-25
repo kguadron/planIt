@@ -111,7 +111,6 @@ public class FlightSearchActivity extends AppCompatActivity implements View.OnCl
         switch (view.getId()) {
             case R.id.submit_search_button:
                 // send request with params
-
                 generateFlightList(new AnswerListAsyncResponse() {
                     @Override
                     public void processFinished(final List<FlightItinerary> flightArrayList) {
@@ -141,13 +140,21 @@ public class FlightSearchActivity extends AppCompatActivity implements View.OnCl
                                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                             @Override
                                             public void onSuccess(DocumentReference documentReference) {
+                                                Toast.makeText(FlightSearchActivity.this,
+                                                        "Flight proposed!",
+                                                        Toast.LENGTH_LONG)
+                                                        .show();
 
                                             }
                                         })
                                         .addOnFailureListener(new OnFailureListener() {
                                             @Override
                                             public void onFailure(@NonNull Exception e) {
-
+                                                Log.d("TAG", "OnFailure for proposing flight" + e.getMessage());
+                                                Toast.makeText(FlightSearchActivity.this,
+                                                        "Flight not proposed. Please try again",
+                                                        Toast.LENGTH_LONG)
+                                                        .show();
                                             }
                                         });
                             }
