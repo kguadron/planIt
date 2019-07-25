@@ -34,6 +34,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -145,6 +146,13 @@ public class FlightSearchActivity extends AppCompatActivity implements View.OnCl
                                                         Toast.LENGTH_LONG)
                                                         .show();
 
+                                                String flightId = documentReference.getId();
+                                                Map<String, Object> data = new HashMap<>();
+                                                data.put("flightId", flightId);
+
+
+                                                documentReference.set(data, SetOptions.merge());
+
                                             }
                                         })
                                         .addOnFailureListener(new OnFailureListener() {
@@ -159,7 +167,6 @@ public class FlightSearchActivity extends AppCompatActivity implements View.OnCl
                                         });
                             }
                         });
-
                     }
                 });
                 break;
@@ -319,7 +326,7 @@ public class FlightSearchActivity extends AppCompatActivity implements View.OnCl
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap();
-                headers.put("Authorization", "Bearer 8s07WAuqKvOztR341A476l6nyJlD");
+                headers.put("Authorization", "Bearer omkWRRvlEPdmDsOrlAmTPGnDjB0M");
                 return headers;
             }
         };

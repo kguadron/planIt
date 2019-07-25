@@ -41,7 +41,6 @@ public class TripListActivity extends AppCompatActivity {
     private FirebaseUser user;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    //private StorageReference storageReference;
     private List<Trip> tripList;
 
     private RecyclerView recyclerView;
@@ -119,6 +118,7 @@ public class TripListActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         tripList.clear();
+
         // Get all trips from Firestore
         collectionReference.whereArrayContains("users", TripApi.getInstance()
             .getUserId())

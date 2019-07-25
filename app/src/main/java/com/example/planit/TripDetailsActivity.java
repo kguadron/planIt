@@ -3,6 +3,7 @@ package com.example.planit;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -11,38 +12,55 @@ import com.google.common.collect.Table;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
-import model.Trip;
+import java.util.ArrayList;
+import java.util.List;
 
-public class TripDetailsActivity extends AppCompatActivity {
+import model.FlightItinerary;
+import model.Trip;
+import ui.ProposedFlightsRecyclerAdapter;
+import ui.SearchResultsRecyclerAdapter;
+import util.TripApi;
+
+public class TripDetailsActivity extends AppCompatActivity  {
 
     private String tripId;
-
     private TextView tripNameText;
     private TextView idText;
     private Button flightSearchButton;
+
     private RecyclerView proposedFlightsRecycler;
+    private List<FlightItinerary> flightList = new ArrayList<>();
+    private ProposedFlightsRecyclerAdapter proposedFlightsRecyclerAdapter;
+
     private RecyclerView travelBudsRecycler;
 
     // Connection to Firestore
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference collectionReference = db.collection("Trip");
+    private CollectionReference flightsCollection = db.collection("Flights");
 
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
@@ -53,16 +71,25 @@ public class TripDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trip_details);
 
+        firebaseAuth = FirebaseAuth.getInstance();
+        user = firebaseAuth.getCurrentUser();
+
         tripNameText = findViewById(R.id.trip_details_name);
         idText = findViewById(R.id.trip_detials_id);
         flightSearchButton = findViewById(R.id.flight_search_button);
-        proposedFlightsRecycler = findViewById(R.id.proposed_flights_recycler);
+
         travelBudsRecycler = findViewById(R.id.travel_buds_recycler);
+
+        proposedFlightsRecycler = findViewById(R.id.proposed_flights_recycler);
+        proposedFlightsRecycler.setHasFixedSize(true);
+        proposedFlightsRecycler.setLayoutManager(new LinearLayoutManager(this));
+
 
         // Gets tripId value from TripListActivity
         tripId = getIntent().getStringExtra("TRIP_ID");
         idText.setText("TRIP ID: " + tripId);
 
+        // db query to display trip name
         collectionReference.whereEqualTo("tripId", tripId).get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -87,6 +114,57 @@ public class TripDetailsActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        flightsCollection.whereEqualTo("tripId", tripId)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        if (!queryDocumentSnapshots.isEmpty()) {
+                            for (QueryDocumentSnapshot flights : queryDocumentSnapshots) {
+                                FlightItinerary flight = flights.toObject(FlightItinerary.class);
+                                flightList.add(flight);
+                            }
+
+                            proposedFlightsRecyclerAdapter = new ProposedFlightsRecyclerAdapter(TripDetailsActivity.this,
+                                    flightList);
+                            proposedFlightsRecycler.setAdapter(proposedFlightsRecyclerAdapter);
+                            proposedFlightsRecyclerAdapter.notifyDataSetChanged();
+
+                            proposedFlightsRecyclerAdapter.setOnItemClickListner(new ProposedFlightsRecyclerAdapter.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(int position) {
+                                    FlightItinerary chosenFlight = flightList.get(position);
+                                    Log.d("on click", "onItemClick: VOTE BUTTON");
+                                    Log.d("on VOTE click", "user id: " + TripApi.getInstance().getUserId());
+                                    Log.d("on VOTE click", "flight id: " + chosenFlight.getFlightId());
+
+
+                                    chosenFlight.getUserVoted().add(TripApi.getInstance().getUserId());
+                                    Log.d("on VOTE click", "user array size: " + chosenFlight.getUserVoted().size());
+
+//                                  collectionReference.document(trip.getTripId()).set(trip, SetOptions.merge());
+                                    flightsCollection.document(chosenFlight.getFlightId()).set(chosenFlight, SetOptions.merge());
+                                    proposedFlightsRecyclerAdapter.notifyDataSetChanged();
+                                }
+                            });
+
+                        } else {
+                        // the query was empty
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
     }
 
     @Override

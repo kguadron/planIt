@@ -9,16 +9,18 @@ import java.util.List;
 public class FlightItinerary {
     private List<Flight> flights = new ArrayList<>();
     private Double totalPrice;
-    private List<String> userVoted;
+    private List<String> userVoted = new ArrayList<>();
     private String tripId;
+    private String flightId;
 
     public FlightItinerary() { } // empty constructor so that the flightItinerary doesn't need all the parameters
 
-    public FlightItinerary(List<Flight> flights, Double totalPrice, List<String> userVoted, String tripId) {
+    public FlightItinerary(List<Flight> flights, Double totalPrice, List<String> userVoted, String tripId, String flightId) {
         this.flights = flights;
         this.totalPrice = totalPrice;
         this.userVoted = userVoted;
         this.tripId = tripId;
+        this.flightId = flightId;
     }
 
 //    @Override
@@ -66,7 +68,7 @@ public class FlightItinerary {
         this.totalPrice = totalPrice;
     }
 
-    public List<String> getuserVoted() {
+    public List<String> getUserVoted() {
         return userVoted;
     }
 
@@ -80,5 +82,13 @@ public class FlightItinerary {
 
     public void setTripId(String tripId) {
         this.tripId = tripId;
+    }
+
+    public String getFlightId() {
+        return flightId;
+    }
+
+    public void setFlightId(String flightId) {
+        this.flightId = flightId;
     }
 }

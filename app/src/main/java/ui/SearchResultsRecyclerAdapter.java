@@ -18,6 +18,7 @@ import data.FlightList;
 import model.Flight;
 import model.FlightItinerary;
 import model.Trip;
+import util.TripApi;
 
 public class SearchResultsRecyclerAdapter extends RecyclerView.Adapter<SearchResultsRecyclerAdapter.ViewHolder> {
     private Context context;
@@ -65,6 +66,7 @@ public class SearchResultsRecyclerAdapter extends RecyclerView.Adapter<SearchRes
         viewHolder.inboundIatas.setText(inbound.getOrigin() + " - " + inbound.getDestination());
         viewHolder.inboundTimes.setText(inbound.getDepartureTime() + " - " + inbound.getReturnTime());
         viewHolder.inboundDuration.setText(inbound.getDuration());
+
 
 
     }
