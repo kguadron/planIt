@@ -3,8 +3,10 @@ package com.example.planit;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
@@ -13,11 +15,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.firestore.auth.User;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -30,12 +34,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.lang.ref.Reference;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -44,6 +50,7 @@ import model.FlightItinerary;
 import model.Trip;
 import ui.ProposedFlightsRecyclerAdapter;
 import ui.SearchResultsRecyclerAdapter;
+import ui.UsersRecyclerAdapter;
 import util.TripApi;
 
 public class TripDetailsActivity extends AppCompatActivity  {
@@ -57,12 +64,16 @@ public class TripDetailsActivity extends AppCompatActivity  {
     private List<FlightItinerary> flightList = new ArrayList<>();
     private ProposedFlightsRecyclerAdapter proposedFlightsRecyclerAdapter;
 
+
     private RecyclerView travelBudsRecycler;
+    private  List<String> userList = new ArrayList<>();
+    private UsersRecyclerAdapter usersRecyclerAdapter;
 
     // Connection to Firestore
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference collectionReference = db.collection("Trip");
+    private CollectionReference tripsCollection = db.collection("Trip");
     private CollectionReference flightsCollection = db.collection("Flights");
+    private CollectionReference usersCollection = db.collection("Users");
 
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
@@ -81,6 +92,8 @@ public class TripDetailsActivity extends AppCompatActivity  {
         flightSearchButton = findViewById(R.id.flight_search_button);
 
         travelBudsRecycler = findViewById(R.id.travel_buds_recycler);
+        travelBudsRecycler.setHasFixedSize(true);
+        travelBudsRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayout.HORIZONTAL, false));
 
         proposedFlightsRecycler = findViewById(R.id.proposed_flights_recycler);
         proposedFlightsRecycler.setHasFixedSize(true);
@@ -92,7 +105,7 @@ public class TripDetailsActivity extends AppCompatActivity  {
         idText.setText("TRIP ID: " + tripId);
 
         // db query to display trip name
-        collectionReference.whereEqualTo("tripId", tripId).get()
+        tripsCollection.whereEqualTo("tripId", tripId).get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -121,6 +134,63 @@ public class TripDetailsActivity extends AppCompatActivity  {
     @Override
     protected void onStart() {
         super.onStart();
+
+        tripsCollection.whereEqualTo("tripId", tripId)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        if (!queryDocumentSnapshots.isEmpty()) {
+                            for (QueryDocumentSnapshot trips : queryDocumentSnapshots) {
+                                Trip trip = trips.toObject(Trip.class);
+                                List<String> userIdList = trip.getUsers();
+                                for (String userId : userIdList) {
+                                    usersCollection.whereEqualTo("userId", userId)
+                                            .get()
+                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                    if (task.isSuccessful()) {
+                                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                                            userList.add(document.get("username").toString().trim());
+                                                            Log.d("USERNAME", "the username" + document.get("username"));
+                                                            Log.d("USERNAME", "the usernames" + userList);
+                                                        }
+
+                                                        usersRecyclerAdapter = new UsersRecyclerAdapter(TripDetailsActivity.this,
+                                                                userList);
+                                                        travelBudsRecycler.setAdapter(usersRecyclerAdapter);
+                                                        usersRecyclerAdapter.notifyDataSetChanged();
+
+//                                                        proposedFlightsRecyclerAdapter = new ProposedFlightsRecyclerAdapter(TripDetailsActivity.this,
+//                                                                flightList);
+//                                                        proposedFlightsRecycler.setAdapter(proposedFlightsRecyclerAdapter);
+//                                                        proposedFlightsRecyclerAdapter.notifyDataSetChanged();
+
+
+                                                    }
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    // failure with query
+                                                }
+                                            });
+                                }
+                            }
+                        } else {
+                            // tripId query empty
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // failure with trip id query
+                    }
+                });
+
 
         flightsCollection.whereEqualTo("tripId", tripId)
                 .get()

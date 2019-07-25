@@ -76,6 +76,7 @@ public class SearchResultsRecyclerAdapter extends RecyclerView.Adapter<SearchRes
         return flightList.size();
     }
 
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView
                 price,
