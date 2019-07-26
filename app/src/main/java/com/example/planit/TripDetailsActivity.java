@@ -1,6 +1,9 @@
 package com.example.planit;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -59,7 +62,10 @@ public class TripDetailsActivity extends AppCompatActivity  {
     private String tripId;
     private TextView tripNameText;
     private TextView idText;
+    private TextView flightCloseX;
     private Button flightSearchButton;
+    private Button seeAllFlightsButton;
+    private Button seeAllUsersButton;
     String tripName;
 
     private RecyclerView proposedFlightsRecycler;
@@ -81,6 +87,8 @@ public class TripDetailsActivity extends AppCompatActivity  {
     private FirebaseAuth.AuthStateListener authStateListener;
     private FirebaseUser user;
 
+    Dialog myDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,6 +100,10 @@ public class TripDetailsActivity extends AppCompatActivity  {
         tripNameText = findViewById(R.id.trip_details_name);
         idText = findViewById(R.id.trip_detials_id);
         flightSearchButton = findViewById(R.id.flight_search_button);
+        seeAllFlightsButton = findViewById(R.id.see_all_flights);
+        seeAllUsersButton = findViewById(R.id.see_all_users);
+
+        myDialog = new Dialog(this);
 
         travelBudsRecycler = findViewById(R.id.travel_buds_recycler);
         travelBudsRecycler.setHasFixedSize(true);
@@ -154,6 +166,7 @@ public class TripDetailsActivity extends AppCompatActivity  {
     protected void onStart() {
         super.onStart();
 
+        // query to populate users list
         tripsCollection.whereEqualTo("tripId", tripId)
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -203,7 +216,7 @@ public class TripDetailsActivity extends AppCompatActivity  {
                     }
                 });
 
-
+        // query to populate proposed flights view
         flightsCollection.whereEqualTo("tripId", tripId)
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -279,6 +292,53 @@ public class TripDetailsActivity extends AppCompatActivity  {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void FlightShowPopup (View v) {
+        myDialog.setContentView(R.layout.flights_popup);
+
+        RecyclerView flightPopupRecycler = myDialog.findViewById(R.id.flight_popup_recycler);
+        flightPopupRecycler.setHasFixedSize(true);
+        flightPopupRecycler.setLayoutManager(new LinearLayoutManager(TripDetailsActivity.this));
+
+
+        final ProposedFlightsRecyclerAdapter flightPopupAdapter = new ProposedFlightsRecyclerAdapter(TripDetailsActivity.this,
+                flightList);
+        flightPopupRecycler.setAdapter(flightPopupAdapter);
+        flightPopupAdapter.notifyDataSetChanged();
+
+
+        flightPopupAdapter.setOnItemClickListner(new ProposedFlightsRecyclerAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                FlightItinerary chosenFlight = flightList.get(position);
+                Log.d("on click", "onItemClick: VOTE BUTTON");
+                Log.d("on VOTE click", "user id: " + TripApi.getInstance().getUserId());
+                Log.d("on VOTE click", "flight id: " + chosenFlight.getFlightId());
+
+
+                chosenFlight.getUserVoted().add(TripApi.getInstance().getUserId());
+                chosenFlight.setVoteCount(chosenFlight.getUserVoted().size());
+                Log.d("on VOTE click", "user array size: " + chosenFlight.getUserVoted().size());
+
+                flightsCollection.document(chosenFlight.getFlightId()).set(chosenFlight, SetOptions.merge());
+                flightPopupAdapter.notifyDataSetChanged();
+            }
+        });
+
+
+
+        flightCloseX = myDialog.findViewById(R.id.flight_popup_close);
+        Log.d("POP", "ShowPopup: flight list : " + flightList);
+
+        flightCloseX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myDialog.dismiss();
+            }
+        });
+        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        myDialog.show();
     }
 
 }
