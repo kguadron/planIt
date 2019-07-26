@@ -63,6 +63,7 @@ public class TripDetailsActivity extends AppCompatActivity  {
     private TextView tripNameText;
     private TextView idText;
     private TextView flightCloseX;
+    private TextView userCloseX;
     private Button flightSearchButton;
     private Button seeAllFlightsButton;
     private Button seeAllUsersButton;
@@ -87,7 +88,8 @@ public class TripDetailsActivity extends AppCompatActivity  {
     private FirebaseAuth.AuthStateListener authStateListener;
     private FirebaseUser user;
 
-    Dialog myDialog;
+    Dialog flightDialog;
+    Dialog userDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,10 +102,15 @@ public class TripDetailsActivity extends AppCompatActivity  {
         tripNameText = findViewById(R.id.trip_details_name);
         idText = findViewById(R.id.trip_detials_id);
         flightSearchButton = findViewById(R.id.flight_search_button);
-        seeAllFlightsButton = findViewById(R.id.see_all_flights);
-        seeAllUsersButton = findViewById(R.id.see_all_users);
 
-        myDialog = new Dialog(this);
+        seeAllFlightsButton = findViewById(R.id.see_all_flights);
+        seeAllFlightsButton.setVisibility(View.INVISIBLE);
+
+        seeAllUsersButton = findViewById(R.id.see_all_users);
+        seeAllUsersButton.setVisibility(View.INVISIBLE);
+
+        flightDialog = new Dialog(this);
+        userDialog = new Dialog(this);
 
         travelBudsRecycler = findViewById(R.id.travel_buds_recycler);
         travelBudsRecycler.setHasFixedSize(true);
@@ -189,6 +196,9 @@ public class TripDetailsActivity extends AppCompatActivity  {
                                                             Log.d("USERNAME", "the usernames" + userList);
                                                         }
 
+                                                        if (userList.size() > 5) {
+                                                            seeAllUsersButton.setVisibility(View.VISIBLE);
+                                                        }
                                                         usersRecyclerAdapter = new UsersRecyclerAdapter(TripDetailsActivity.this,
                                                                 userList);
                                                         travelBudsRecycler.setAdapter(usersRecyclerAdapter);
@@ -226,6 +236,10 @@ public class TripDetailsActivity extends AppCompatActivity  {
                             for (QueryDocumentSnapshot flights : queryDocumentSnapshots) {
                                 FlightItinerary flight = flights.toObject(FlightItinerary.class);
                                 flightList.add(flight);
+                            }
+
+                            if (flightList.size() > 1) {
+                                seeAllFlightsButton.setVisibility(View.VISIBLE);
                             }
 
                             proposedFlightsRecyclerAdapter = new ProposedFlightsRecyclerAdapter(TripDetailsActivity.this,
@@ -295,9 +309,9 @@ public class TripDetailsActivity extends AppCompatActivity  {
     }
 
     public void FlightShowPopup (View v) {
-        myDialog.setContentView(R.layout.flights_popup);
+        flightDialog.setContentView(R.layout.flights_popup);
 
-        RecyclerView flightPopupRecycler = myDialog.findViewById(R.id.flight_popup_recycler);
+        RecyclerView flightPopupRecycler = flightDialog.findViewById(R.id.flight_popup_recycler);
         flightPopupRecycler.setHasFixedSize(true);
         flightPopupRecycler.setLayoutManager(new LinearLayoutManager(TripDetailsActivity.this));
 
@@ -328,17 +342,43 @@ public class TripDetailsActivity extends AppCompatActivity  {
 
 
 
-        flightCloseX = myDialog.findViewById(R.id.flight_popup_close);
+        flightCloseX = flightDialog.findViewById(R.id.flight_popup_close);
         Log.d("POP", "ShowPopup: flight list : " + flightList);
 
         flightCloseX.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myDialog.dismiss();
+                flightDialog.dismiss();
             }
         });
-        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        myDialog.show();
+        flightDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        flightDialog.show();
+    }
+
+    public void UserShowPopup (View v) {
+        userDialog.setContentView(R.layout.users_popup);
+
+        RecyclerView userPopupRecycler = userDialog.findViewById(R.id.user_popup_recycler);
+        userPopupRecycler.setHasFixedSize(true);
+        userPopupRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayout.HORIZONTAL, false));
+
+
+        final UsersRecyclerAdapter userPopupAdapter = new UsersRecyclerAdapter(TripDetailsActivity.this,
+                userList);
+        userPopupRecycler.setAdapter(userPopupAdapter);
+        userPopupAdapter.notifyDataSetChanged();
+
+        userCloseX = userDialog.findViewById(R.id.user_popup_close);
+        Log.d("POP", "ShowPopup: flight list : " + flightList);
+
+        userCloseX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                userDialog.dismiss();
+            }
+        });
+//        userDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        userDialog.show();
     }
 
 }

@@ -402,7 +402,7 @@ public class FlightSearchActivity extends AppCompatActivity implements View.OnCl
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap();
-                headers.put("Authorization", "Bearer pJrNIpAQ6NX9PoTxbduZnhizb1YY");
+                headers.put("Authorization", "Bearer XUVzYrJTYQrpPHOgMicGFD9GfxgB");
                 return headers;
             }
         };

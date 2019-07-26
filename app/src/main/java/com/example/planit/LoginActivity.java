@@ -1,4 +1,4 @@
- package com.example.planit;
+package com.example.planit;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,7 +30,7 @@ import javax.annotation.Nullable;
 
 import util.TripApi;
 
- public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     private Button loginButton;
     private Button createAcctButton;
@@ -65,7 +65,7 @@ import util.TripApi;
         createAcctButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(LoginActivity.this, CreateAccountActivity.class ));
+                startActivity(new Intent(LoginActivity.this, CreateAccountActivity.class));
             }
         });
 
@@ -77,13 +77,14 @@ import util.TripApi;
 
             }
         });
+        loginEmailPasswordUser("kar@me.com", "password");
     }
 
-     private void loginEmailPasswordUser(String email, String pwd) {
+    private void loginEmailPasswordUser(String email, String pwd) {
         progressBar.setVisibility(View.VISIBLE);
 
         if (!TextUtils.isEmpty(email)
-            && !TextUtils.isEmpty(pwd)) {
+                && !TextUtils.isEmpty(pwd)) {
 
             firebaseAuth.signInWithEmailAndPassword(email, pwd)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -93,34 +94,34 @@ import util.TripApi;
                             final String currentUserId = user.getUid();
 
                             collectionReference.whereEqualTo("userId", currentUserId)
-                            .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                                @Override
-                                public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots,
-                                                    @Nullable FirebaseFirestoreException e) {
+                                    .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots,
+                                                            @Nullable FirebaseFirestoreException e) {
 
-                                    if (e != null) {
-                                        // there is an exception which means there's a problem
-                                    }
+                                            if (e != null) {
+                                                // there is an exception which means there's a problem
+                                            }
 
-                                    assert queryDocumentSnapshots != null;
-                                    if (!queryDocumentSnapshots.isEmpty()) {
+                                            assert queryDocumentSnapshots != null;
+                                            if (!queryDocumentSnapshots.isEmpty()) {
 
-                                        progressBar.setVisibility(View.INVISIBLE);
+                                                progressBar.setVisibility(View.INVISIBLE);
 
-                                        for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
-                                            TripApi tripApi = TripApi.getInstance();
-                                            tripApi.setUsername(snapshot.getString("username"));
-                                            tripApi.setUserId(currentUserId);
+                                                for (QueryDocumentSnapshot snapshot : queryDocumentSnapshots) {
+                                                    TripApi tripApi = TripApi.getInstance();
+                                                    tripApi.setUsername(snapshot.getString("username"));
+                                                    tripApi.setUserId(currentUserId);
 
-                                            // Go to ListActivity
-                                            startActivity(new Intent(LoginActivity.this,
-                                                    TripListActivity.class));
+                                                    // Go to ListActivity
+                                                    startActivity(new Intent(LoginActivity.this,
+                                                            TripListActivity.class));
 
+                                                }
+
+                                            }
                                         }
-
-                                    }
-                                }
-                            });
+                                    });
 
                         }
                     })
@@ -144,5 +145,5 @@ import util.TripApi;
                     Toast.LENGTH_SHORT)
                     .show();
         }
-     }
- }
+    }
+}
