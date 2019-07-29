@@ -13,8 +13,12 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -68,8 +72,8 @@ public class FlightSearchActivity extends AppCompatActivity implements View.OnCl
 
     private String tripId;
 
-    private EditText originText;
-    private EditText destinationText;
+    private AutoCompleteTextView originText;
+    private AutoCompleteTextView destinationText;
     private RadioButton oneWayButton;
     private EditText departureDate;
     private EditText returnDate;
@@ -96,6 +100,9 @@ public class FlightSearchActivity extends AppCompatActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flight_search);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        user = firebaseAuth.getCurrentUser();
 
         queue = RequestQueueSingleton.getInstance(this.getApplicationContext())
                 .getRequestQueue();
@@ -146,6 +153,8 @@ public class FlightSearchActivity extends AppCompatActivity implements View.OnCl
             }
         });
 
+
+
         returnDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -172,6 +181,17 @@ public class FlightSearchActivity extends AppCompatActivity implements View.OnCl
                 datePickerDialog.show();
             }
         });
+
+
+        String[] airports = getResources().getStringArray(R.array.airports);
+        ArrayAdapter<String> originAdapter = new ArrayAdapter<String>(this,
+                R.layout.search_result_item, R.id.text_view_list_item, airports);
+        originText.setAdapter(originAdapter);
+
+        ArrayAdapter<String> destinationAdapter = new ArrayAdapter<String>(this,
+                R.layout.search_result_item, R.id.text_view_list_item, airports);
+        destinationText.setAdapter(destinationAdapter);
+
     }
 
     private void closeKeyboard() {
@@ -180,6 +200,45 @@ public class FlightSearchActivity extends AppCompatActivity implements View.OnCl
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.back_to_trip_list:
+                if (user != null && firebaseAuth != null) {
+                    startActivity(new Intent(FlightSearchActivity.this,
+                            TripListActivity.class));
+                    finish();
+                }
+                break;
+            case R.id.action_signout:
+                // sign user out
+                if (user != null && firebaseAuth != null) {
+                    firebaseAuth.signOut();
+
+                    startActivity(new Intent(FlightSearchActivity.this,
+                            MainActivity.class));
+                    finish();
+                }
+                break;
+            case R.id.back_to_details:
+                if (user != null && firebaseAuth != null) {
+                    Intent intent = new Intent(FlightSearchActivity.this,
+                            TripDetailsActivity.class);
+                    intent.putExtra("TRIP_ID", tripId);
+                    startActivity(intent);
+                    finish();
+                }
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 
@@ -256,8 +315,10 @@ public class FlightSearchActivity extends AppCompatActivity implements View.OnCl
         String departure = departureDate.getText().toString().trim();
         String returnD = returnDate.getText().toString().trim();
 
-        flightParams.add(new FlightParams("origin", origin));
-        flightParams.add(new FlightParams("destination", destination));
+//        flightParams.add(new FlightParams("origin", origin));
+        flightParams.add(new FlightParams("origin", "SEA"));
+//        flightParams.add(new FlightParams("destination", destination));
+        flightParams.add(new FlightParams("destination", "JFK"));
         flightParams.add(new FlightParams("departureDate", departure));
 
         if (!TextUtils.isEmpty(returnDate.getText().toString().trim())) {
@@ -402,7 +463,7 @@ public class FlightSearchActivity extends AppCompatActivity implements View.OnCl
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap();
-                headers.put("Authorization", "Bearer FsRbzGMRoGC7Cg8fneUy8VQAG7wO");
+                headers.put("Authorization", "Bearer mpG5ne7031GO6vaVNrEP0KbB8bNO");
                 return headers;
             }
         };

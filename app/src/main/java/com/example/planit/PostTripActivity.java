@@ -174,6 +174,7 @@ public class PostTripActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
+        menu.findItem(R.id.back_to_details).setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -183,11 +184,18 @@ public class PostTripActivity extends AppCompatActivity implements View.OnClickL
 //            case R.id.action_add:
 //                // Take users to post trip
 //                if (user != null && firebaseAuth != null) {
-//                    startActivity(new Intent(PostTripActivity.this,
+//                    startActivity(new Intent(TripDetailsActivity.this,
 //                            PostTripActivity.class));
-////                    finish();
+//                    finish();
 //                }
 //                break;
+            case R.id.back_to_trip_list:
+                if (user != null && firebaseAuth != null) {
+                    startActivity(new Intent(PostTripActivity.this,
+                            TripListActivity.class));
+                    finish();
+                }
+                break;
             case R.id.action_signout:
                 // sign user out
                 if (user != null && firebaseAuth != null) {

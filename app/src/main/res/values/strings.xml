@@ -2,7 +2,7 @@
     <string name="app_name">PlanIt</string>
     <string name="title">PlanIt</string>
     <string name="subtitle">Plan group travels. \n Travel the planet. </string>
-    <string name="get_started_text">Get started</string>
+    <string name="get_started_text">Start Planning</string>
     <string name="email_hint">Email</string>
     <string name="password_hint">Password</string>
     <string name="login_text">Login</string>
@@ -24,4 +24,7 @@
     <string name="title_activity_trip_details">TripDetailsActivity</string>
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
+    <string name="back_to_details">Back to Trip Details</string>
+    <string name="back_to_list">Your Trips</string>
+    <string name="back_to_search">Back to Search</string>
 </resources>

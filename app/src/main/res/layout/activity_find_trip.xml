@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FindTripActivity">
+    tools:context=".FindTripActivity"
+    android:background="@drawable/planit_general">
 
     <TextView
         android:id="@+id/findTripTitle"
@@ -15,6 +16,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:text="Find an Existing Trip"
+        android:textColor="@android:color/white"
         android:textAlignment="center"
         android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/enter_trip_id_find"
@@ -34,6 +36,8 @@
         android:layout_marginBottom="8dp"
         android:ems="10"
         android:hint="Enter Trip ID"
+        android:textColorHint="@android:color/white"
+        android:textColor="@android:color/white"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -49,6 +53,10 @@
         android:layout_marginTop="28dp"
         android:layout_marginEnd="8dp"
         android:text="Find &amp; Add"
+        android:background="@android:color/transparent"
+        android:textColor="@color/colorAccent"
+        android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"

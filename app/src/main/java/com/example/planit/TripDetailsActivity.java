@@ -180,6 +180,7 @@ public class TripDetailsActivity extends AppCompatActivity  {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         if (!queryDocumentSnapshots.isEmpty()) {
+                            userList.clear();
                             for (QueryDocumentSnapshot trips : queryDocumentSnapshots) {
                                 Trip trip = trips.toObject(Trip.class);
                                 List<String> userIdList = trip.getUsers();
@@ -199,6 +200,7 @@ public class TripDetailsActivity extends AppCompatActivity  {
                                                         if (userList.size() > 1) {
                                                             seeAllUsersButton.setVisibility(View.VISIBLE);
                                                         }
+
                                                         usersRecyclerAdapter = new UsersRecyclerAdapter(TripDetailsActivity.this,
                                                                 userList);
                                                         travelBudsRecycler.setAdapter(usersRecyclerAdapter);
@@ -233,6 +235,7 @@ public class TripDetailsActivity extends AppCompatActivity  {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         if (!queryDocumentSnapshots.isEmpty()) {
+                            flightList.clear();
                             for (QueryDocumentSnapshot flights : queryDocumentSnapshots) {
                                 FlightItinerary flight = flights.toObject(FlightItinerary.class);
                                 flightList.add(flight);
@@ -251,14 +254,9 @@ public class TripDetailsActivity extends AppCompatActivity  {
                                 @Override
                                 public void onItemClick(int position) {
                                     FlightItinerary chosenFlight = flightList.get(position);
-                                    Log.d("on click", "onItemClick: VOTE BUTTON");
-                                    Log.d("on VOTE click", "user id: " + TripApi.getInstance().getUserId());
-                                    Log.d("on VOTE click", "flight id: " + chosenFlight.getFlightId());
-
 
                                     chosenFlight.getUserVoted().add(TripApi.getInstance().getUserId());
                                     chosenFlight.setVoteCount(chosenFlight.getUserVoted().size());
-                                    Log.d("on VOTE click", "user array size: " + chosenFlight.getUserVoted().size());
 
                                     flightsCollection.document(chosenFlight.getFlightId()).set(chosenFlight, SetOptions.merge());
                                     proposedFlightsRecyclerAdapter.notifyDataSetChanged();
@@ -280,6 +278,7 @@ public class TripDetailsActivity extends AppCompatActivity  {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
+        menu.findItem(R.id.back_to_details).setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -294,6 +293,13 @@ public class TripDetailsActivity extends AppCompatActivity  {
 //                    finish();
 //                }
 //                break;
+            case R.id.back_to_trip_list:
+                if (user != null && firebaseAuth != null) {
+                    startActivity(new Intent(TripDetailsActivity.this,
+                            TripListActivity.class));
+                    finish();
+                }
+                break;
             case R.id.action_signout:
                 // sign user out
                 if (user != null && firebaseAuth != null) {

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<!--<string name="app_name">AutoCompleteTextView Example</string>x-->
+
+<string-array name="airports">
+    <item>Seattle, WA (Any)</item>
+    <item>Seattle/ Tacoma International, WA(SEA)</item>
+    <item>Seattle Boeing Fld, WA (BFI)</item>
+    <item>Seattle Lake Union SPB, WA (LIKE)</item>
+    <item>Seal Bay, AK (SYB)</item>
+    <item>Deer Harbor Seaplane, WA (DHB)</item>
+    <item>New York, NY (Any)</item>
+    <item>New York John F. Kennedy, NY (JFK)</item>
+    <item>New York LaGuardia, NY (LGA)</item>
+    <item>Stewart International, NY (SWF)</item>
+    <item>Buffalo Niagara, NY (BUF)</item>
+    <item>Albany, NY (ALB)</item>
+    <item>Rochester, NY (ROC)</item>
+    <item>Syracuse, NY (SYR)</item>
+    <item>Westchester County, NY (HPN)</item>
+</string-array>
+</resources>

@@ -140,6 +140,7 @@ public class FindTripActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
+        menu.findItem(R.id.back_to_details).setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -149,11 +150,18 @@ public class FindTripActivity extends AppCompatActivity {
 //            case R.id.action_add:
 //                // Take users to post trip
 //                if (user != null && firebaseAuth != null) {
-//                    startActivity(new Intent(FindTripActivity.this,
+//                    startActivity(new Intent(TripDetailsActivity.this,
 //                            PostTripActivity.class));
-////                    finish();
+//                    finish();
 //                }
 //                break;
+            case R.id.back_to_trip_list:
+                if (user != null && firebaseAuth != null) {
+                    startActivity(new Intent(FindTripActivity.this,
+                            TripListActivity.class));
+                    finish();
+                }
+                break;
             case R.id.action_signout:
                 // sign user out
                 if (user != null && firebaseAuth != null) {

@@ -2,9 +2,11 @@ package com.example.planit;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -86,6 +88,8 @@ public class TripListActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
+        menu.findItem(R.id.back_to_details).setVisible(false);
+        menu.findItem(R.id.back_to_trip_list).setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -107,7 +111,7 @@ public class TripListActivity extends AppCompatActivity {
 
                     startActivity(new Intent(TripListActivity.this,
                             MainActivity.class));
-//                    finish();
+                    finish();
                 }
                 break;
         }
@@ -117,7 +121,7 @@ public class TripListActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        tripList.clear();
+
 
         // Get all trips from Firestore
         collectionReference.whereArrayContains("users", TripApi.getInstance()
@@ -128,6 +132,7 @@ public class TripListActivity extends AppCompatActivity {
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         // Query documentSnapshot for data
                         if (!queryDocumentSnapshots.isEmpty()) {
+                            tripList.clear();
                             for (QueryDocumentSnapshot trips : queryDocumentSnapshots) {
                                 Trip trip = trips.toObject(Trip.class);
                                 tripList.add(trip);

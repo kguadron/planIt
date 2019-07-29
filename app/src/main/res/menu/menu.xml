@@ -4,6 +4,16 @@
     android:icon="@drawable/menu_dots">
 
     <item
+        android:id="@+id/back_to_details"
+        android:title="@string/back_to_details"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/back_to_trip_list"
+        android:title="@string/back_to_list"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/action_signout"
         android:title="@string/signout"
         app:showAsAction="never" />
