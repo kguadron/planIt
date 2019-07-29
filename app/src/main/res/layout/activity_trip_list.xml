@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".PostTripActivity"
-    style="@style/AppTheme.AppBarOverlay">
+    style="@style/AppTheme.AppBarOverlay"
+    android:background="@drawable/planit_general">
 
     <TextView
         android:id="@+id/trip_list_title"
@@ -23,7 +24,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@android:color/white"/>
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -43,20 +45,27 @@
             android:id="@+id/add_trip_to_list_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/add_trip_to_list_button" />
+            android:text="@string/add_trip_to_list_button"
+            android:background="@color/transparent"
+            android:layout_marginRight="50dp"
+            android:textSize="20sp" />
 
         <Button
             android:textColor="@color/colorAccent"
             android:id="@+id/find_existing_trip_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/find_existing_trip_button" />
+            android:text="@string/find_existing_trip_button"
+            android:background="@color/transparent"
+            android:textSize="20sp"/>
 
     </LinearLayout>
-    
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
 
     </androidx.core.widget.NestedScrollView>
 

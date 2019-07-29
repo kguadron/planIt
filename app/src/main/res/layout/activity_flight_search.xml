@@ -6,6 +6,7 @@
     android:id="@+id/search_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/planit_general"
     tools:context=".FlightSearchActivity">
 
     <TextView
@@ -13,14 +14,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="8dp"
         android:gravity="center"
         android:text="Flight Search"
+        android:textColor="@android:color/white"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 
     <EditText
         android:id="@+id/origin_text"
@@ -32,6 +36,8 @@
         android:ems="10"
         android:hint="Origin"
         android:inputType="textPersonName"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,10 +53,31 @@
         android:ems="10"
         android:hint="Destination"
         android:inputType="textPersonName"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/origin_text" />
+
+    <RadioButton
+        android:id="@+id/roundtrip_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:buttonTint="@android:color/white"
+        android:checked="true"
+        android:text="Roundtrip"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@+id/departure_date_text"
+        app:layout_constraintEnd_toStartOf="@+id/one_way_button"
+        app:layout_constraintHorizontal_bias="0.852"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/destination_text"
+        app:layout_constraintVertical_bias="0.0" />
 
     <RadioButton
         android:id="@+id/one_way_button"
@@ -59,9 +86,11 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="8dp"
+        android:buttonTint="@android:color/white"
         android:text="One way"
+        android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.925"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/destination_text" />
 
@@ -75,6 +104,8 @@
         android:ems="10"
         android:hint="Departure date"
         android:inputType="textPersonName"
+        android:textColorHint="@android:color/white"
+        android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -90,6 +121,8 @@
         android:ems="10"
         android:hint="Return date"
         android:inputType="textPersonName"
+        android:textColorHint="@android:color/white"
+        android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -103,6 +136,8 @@
         android:layout_marginTop="28dp"
         android:layout_marginEnd="8dp"
         android:text="Travel Class:"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.026"
@@ -131,8 +166,10 @@
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/radio_group"
             android:layout_gravity="center_vertical"
+            android:buttonTint="@android:color/white"
             android:gravity="center"
             android:text="Economy"
+            android:textColor="@android:color/white"
             android:textSize="10sp" />
 
 
@@ -141,8 +178,10 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
+            android:buttonTint="@android:color/white"
             android:gravity="center"
             android:text="Premium-Economy"
+            android:textColor="@android:color/white"
             android:textSize="10sp" />
 
         <RadioButton
@@ -150,8 +189,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:buttonTint="@android:color/white"
             android:gravity="center"
             android:text="Business"
+            android:textColor="@android:color/white"
             android:textSize="10sp" />
 
         <RadioButton
@@ -159,8 +200,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:buttonTint="@android:color/white"
             android:gravity="center"
             android:text="First"
+            android:textColor="@android:color/white"
             android:textSize="10sp" />
 
 
@@ -174,7 +217,9 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:background="@android:color/transparent"
         android:text="Search"
+        android:textColor="@color/colorAccent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"

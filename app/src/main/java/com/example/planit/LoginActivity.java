@@ -77,7 +77,7 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
-        loginEmailPasswordUser("kar@me.com", "password");
+//        loginEmailPasswordUser("kar@me.com", "password");
     }
 
     private void loginEmailPasswordUser(String email, String pwd) {

@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/AppTheme.AppBarOverlay"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TripDetailsActivity">
+    tools:context=".TripDetailsActivity"
+    android:background="@drawable/planit_general" >
 
     <TextView
         android:id="@+id/travel_buds"
@@ -15,7 +17,9 @@
         android:layout_marginTop="128dp"
         android:layout_marginEnd="8dp"
         android:text="Travel Buddies"
-        android:textSize="20sp"
+        android:textColor="@android:color/white"
+        android:textSize="22sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/see_all_users"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,7 +37,8 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/trip_details_name" />
+        app:layout_constraintTop_toBottomOf="@+id/trip_details_name"
+        android:textColor="@android:color/white"/>
 
     <TextView
         android:id="@+id/trip_details_name"
@@ -45,7 +50,8 @@
         android:textSize="50sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@android:color/white"/>
 
     <TextView
         android:id="@+id/proposed_flights"
@@ -55,7 +61,9 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
         android:text="Proposed Flights"
-        android:textSize="20sp"
+        android:textColor="@android:color/white"
+        android:textSize="22sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/see_all_flights"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -63,8 +71,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/proposed_flights_recycler"
-        android:layout_width="380dp"
-        android:layout_height="275dp"
+        android:layout_width="383dp"
+        android:layout_height="312dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
@@ -100,7 +108,8 @@
         android:background="@android:color/transparent"
         android:text="Search &amp; Propose Flights"
         android:textColor="@color/colorAccent"
-        android:textSize="14sp"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -112,7 +121,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
-        android:layout_marginEnd="140dp"
+        android:layout_marginEnd="90dp"
         android:layout_marginBottom="8dp"
         android:background="@android:color/transparent"
         android:onClick="UserShowPopup"
@@ -120,12 +129,14 @@
         android:paddingRight="20dp"
         android:text="See all"
         android:textColor="@color/colorAccent"
-        android:textSize="14sp"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/travel_buds"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/trip_detials_id" />
+        app:layout_constraintTop_toBottomOf="@+id/trip_detials_id"
+        app:layout_constraintVertical_bias="0.266" />
 
     <Button
         android:id="@+id/see_all_flights"
@@ -139,9 +150,10 @@
         android:paddingRight="20dp"
         android:text="See all"
         android:textColor="@color/colorAccent"
-        android:textSize="14sp"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.58"
+        app:layout_constraintHorizontal_bias="0.736"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/travel_buds_recycler" />
 

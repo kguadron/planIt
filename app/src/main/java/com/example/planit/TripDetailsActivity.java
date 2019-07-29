@@ -196,7 +196,7 @@ public class TripDetailsActivity extends AppCompatActivity  {
                                                             Log.d("USERNAME", "the usernames" + userList);
                                                         }
 
-                                                        if (userList.size() > 5) {
+                                                        if (userList.size() > 1) {
                                                             seeAllUsersButton.setVisibility(View.VISIBLE);
                                                         }
                                                         usersRecyclerAdapter = new UsersRecyclerAdapter(TripDetailsActivity.this,
@@ -286,14 +286,14 @@ public class TripDetailsActivity extends AppCompatActivity  {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_add:
-                // Take users to post trip
-                if (user != null && firebaseAuth != null) {
-                    startActivity(new Intent(TripDetailsActivity.this,
-                            PostTripActivity.class));
+//            case R.id.action_add:
+//                // Take users to post trip
+//                if (user != null && firebaseAuth != null) {
+//                    startActivity(new Intent(TripDetailsActivity.this,
+//                            PostTripActivity.class));
 //                    finish();
-                }
-                break;
+//                }
+//                break;
             case R.id.action_signout:
                 // sign user out
                 if (user != null && firebaseAuth != null) {

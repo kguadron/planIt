@@ -19,7 +19,7 @@
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:scaleType="fitXY"
-            android:src="@drawable/user_transparent"/>
+            android:src="@drawable/user_white"/>
 
         <TextView
             android:id="@+id/user_name"
@@ -27,7 +27,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="NAME"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:textColor="@android:color/white"/>
 
     </LinearLayout>
 

@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:paddingLeft="12dp"
     android:paddingRight="12dp"
+    android:background="@drawable/planit_general"
     tools:context=".SearchResultsActivity">
 
 

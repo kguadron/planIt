@@ -92,14 +92,14 @@ public class TripListActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_add:
-                // Take users to post trip
-                if (user != null && firebaseAuth != null) {
-                    startActivity(new Intent(TripListActivity.this,
-                            PostTripActivity.class));
-//                    finish();
-                }
-                break;
+//            case R.id.action_add:
+//                // Take users to post trip
+//                if (user != null && firebaseAuth != null) {
+//                    startActivity(new Intent(TripListActivity.this,
+//                            PostTripActivity.class));
+////                    finish();
+//                }
+//                break;
             case R.id.action_signout:
                 // sign user out
                 if (user != null && firebaseAuth != null) {
