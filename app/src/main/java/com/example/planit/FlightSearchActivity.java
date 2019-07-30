@@ -329,7 +329,7 @@ public class FlightSearchActivity extends AppCompatActivity implements View.OnCl
     }
 
     public static String generateUrl(List<FlightParams> params) {
-        String baseUrl = "https://test.api.amadeus.com/v1/shopping/flight-offers?currency=USD&nonStop=true&max=20";
+        String baseUrl = "https://test.api.amadeus.com/v1/shopping/flight-offers?currency=USD&nonStop=true&max=30";
         if (params.size() > 0) {
             for (FlightParams parameter: params) {
                 if (parameter.getKey().trim().length() > 0)
@@ -463,7 +463,7 @@ public class FlightSearchActivity extends AppCompatActivity implements View.OnCl
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap();
-                headers.put("Authorization", "Bearer mpG5ne7031GO6vaVNrEP0KbB8bNO");
+                headers.put("Authorization", "Bearer Oc1gAzArgm2cX4I9zYRvI5LtMA73");
                 return headers;
             }
         };

@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,11 +16,8 @@ import com.example.planit.R;
 
 import java.util.List;
 
-import data.FlightList;
 import model.Flight;
 import model.FlightItinerary;
-import model.Trip;
-import util.TripApi;
 
 public class SearchResultsRecyclerAdapter extends RecyclerView.Adapter<SearchResultsRecyclerAdapter.ViewHolder> {
     private Context context;
@@ -55,7 +54,20 @@ public class SearchResultsRecyclerAdapter extends RecyclerView.Adapter<SearchRes
         Flight inbound = flightItinerary.getFlights().get(1);
 
         viewHolder.price.setText("$" + flightItinerary.getTotalPrice().toString().trim());
-        viewHolder.airline.setText(outbound.getAirline());
+
+        String airlineCode = outbound.getAirline();
+        if (airlineCode.equals("B6")) {
+            viewHolder.airline.setImageResource(R.drawable.b6);
+        } else if (airlineCode.equals("AS")) {
+            viewHolder.airline.setImageResource(R.drawable.as);
+        } else if (airlineCode.equals("DL")) {
+            viewHolder.airline.setImageResource(R.drawable.dl);
+        } else if (airlineCode.equals("UA")) {
+            viewHolder.airline.setImageResource(R.drawable.ua);
+        }
+
+
+//        viewHolder.airline.setText(outbound.getAirline());
 
         viewHolder.outboundDate.setText(outbound.getDepartureDate());
         viewHolder.outboundIatas.setText(outbound.getOrigin() + " - " + outbound.getDestination());
@@ -80,7 +92,6 @@ public class SearchResultsRecyclerAdapter extends RecyclerView.Adapter<SearchRes
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView
                 price,
-                airline,
                 outboundDate,
                 outboundIatas,
                 outboundTimes,
@@ -89,6 +100,7 @@ public class SearchResultsRecyclerAdapter extends RecyclerView.Adapter<SearchRes
                 inboundIatas,
                 inboundTimes,
                 inboundDuration;
+        public ImageView airline;
         public Button proposeButton;
 
 
@@ -97,7 +109,7 @@ public class SearchResultsRecyclerAdapter extends RecyclerView.Adapter<SearchRes
 
             context = ctx;
             price = itemView.findViewById(R.id.total_price);
-            airline = itemView.findViewById(R.id.airline);
+            airline = itemView.findViewById(R.id.airline_proposed);
             outboundDate = itemView.findViewById(R.id.out_dep_date);
             outboundIatas = itemView.findViewById(R.id.outbound_iatas);
             outboundTimes = itemView.findViewById(R.id.out_dep_arri_time);

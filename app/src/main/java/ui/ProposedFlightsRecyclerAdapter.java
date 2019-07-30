@@ -2,13 +2,17 @@ package ui;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.planit.R;
@@ -17,7 +21,6 @@ import java.util.List;
 
 import model.Flight;
 import model.FlightItinerary;
-import util.TripApi;
 
 public class ProposedFlightsRecyclerAdapter extends RecyclerView.Adapter<ProposedFlightsRecyclerAdapter.ViewHolder> {
     private Context context;
@@ -54,7 +57,19 @@ public class ProposedFlightsRecyclerAdapter extends RecyclerView.Adapter<Propose
         Flight inbound = flightItinerary.getFlights().get(1);
 
         viewHolder.price.setText("$" + flightItinerary.getTotalPrice().toString().trim());
-        viewHolder.airline.setText(outbound.getAirline());
+        String airlineCode = outbound.getAirline();
+            if (airlineCode.equals("B6")) {
+                viewHolder.airline.setImageResource(R.drawable.b6);
+            } else if (airlineCode.equals("AS")) {
+                viewHolder.airline.setImageResource(R.drawable.as);
+            } else if (airlineCode.equals("DL")) {
+                viewHolder.airline.setImageResource(R.drawable.dl);
+            } else if (airlineCode.equals("UA")) {
+                viewHolder.airline.setImageResource(R.drawable.ua);
+            }
+
+//        viewHolder.airline.setImageDrawable(airlineCode + ".png");
+//                setText(outbound.getAirline());
 
         viewHolder.outboundDate.setText(outbound.getDepartureDate());
         viewHolder.outboundIatas.setText(outbound.getOrigin() + " - " + outbound.getDestination());
@@ -72,25 +87,25 @@ public class ProposedFlightsRecyclerAdapter extends RecyclerView.Adapter<Propose
 //        }
 
         if (flightItinerary.getUserVoted().size() == 1) {
-            viewHolder.votes.setTextColor(Color.parseColor("#F3BACF"));
+            viewHolder.votes.setTextColor(Color.parseColor("#f5c6d7"));
         } else if (flightItinerary.getUserVoted().size() == 2) {
-            viewHolder.votes.setTextColor(Color.parseColor("#FFB966"));
+            viewHolder.votes.setTextColor(Color.parseColor("#f2b3ca"));
         } else if (flightItinerary.getUserVoted().size() == 3) {
-            viewHolder.votes.setTextColor(Color.parseColor("#FFE814"));
+            viewHolder.votes.setTextColor(Color.parseColor("#efa0bd"));
         } else if (flightItinerary.getUserVoted().size() == 4) {
-            viewHolder.votes.setTextColor(Color.parseColor("#9BEFB0"));
+            viewHolder.votes.setTextColor(Color.parseColor("#eb8db0"));
         } else if (flightItinerary.getUserVoted().size() == 5) {
-            viewHolder.votes.setTextColor(Color.parseColor("#84EBD8"));
+            viewHolder.votes.setTextColor(Color.parseColor("#e87aa2"));
         } else if (flightItinerary.getUserVoted().size() == 6) {
-            viewHolder.votes.setTextColor(Color.parseColor("#6EB9E7"));
+            viewHolder.votes.setTextColor(Color.parseColor("#e56795"));
         } else if (flightItinerary.getUserVoted().size() == 7) {
-            viewHolder.votes.setTextColor(Color.parseColor("#585FE3"));
+            viewHolder.votes.setTextColor(Color.parseColor("#e25488"));
         } else if (flightItinerary.getUserVoted().size() == 8) {
-            viewHolder.votes.setTextColor(Color.parseColor("#9243DF"));
+            viewHolder.votes.setTextColor(Color.parseColor("#de417b"));
         } else if (flightItinerary.getUserVoted().size() == 9) {
-            viewHolder.votes.setTextColor(Color.parseColor("#DB2ECF"));
+            viewHolder.votes.setTextColor(Color.parseColor("#db2e6d"));
         } else if (flightItinerary.getUserVoted().size() >= 10) {
-            viewHolder.votes.setTextColor(Color.parseColor("#D81B60"));
+            viewHolder.votes.setTextColor(Color.parseColor("#d81b60"));
         }
     }
 
@@ -102,7 +117,6 @@ public class ProposedFlightsRecyclerAdapter extends RecyclerView.Adapter<Propose
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView
                 price,
-                airline,
                 outboundDate,
                 outboundIatas,
                 outboundTimes,
@@ -112,6 +126,7 @@ public class ProposedFlightsRecyclerAdapter extends RecyclerView.Adapter<Propose
                 inboundTimes,
                 inboundDuration,
                 votes;
+        public ImageView airline;
         public Button voteButton;
 
         public ViewHolder(@NonNull View itemView, Context ctx) {
