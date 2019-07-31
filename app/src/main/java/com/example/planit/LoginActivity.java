@@ -32,8 +32,6 @@ import util.TripApi;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private Button loginButton;
-    private Button createAcctButton;
     private ProgressBar progressBar;
 
     private AutoCompleteTextView emailAddress;
@@ -59,8 +57,8 @@ public class LoginActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.login_progress);
 
 
-        loginButton = findViewById(R.id.email_login_button);
-        createAcctButton = findViewById(R.id.create_account_button_login);
+        Button loginButton = findViewById(R.id.email_login_button);
+        Button createAcctButton = findViewById(R.id.create_account_button_login);
 
         createAcctButton.setOnClickListener(new View.OnClickListener() {
             @Override

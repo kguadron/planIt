@@ -197,7 +197,7 @@ public class TripDetailsActivity extends AppCompatActivity  {
                                                             Log.d("USERNAME", "the usernames" + userList);
                                                         }
 
-                                                        if (userList.size() > 1) {
+                                                        if (userList.size() > 5) {
                                                             seeAllUsersButton.setVisibility(View.VISIBLE);
                                                         }
 

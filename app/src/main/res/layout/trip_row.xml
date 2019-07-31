@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="Name"
+            android:text="@string/trip_name_list"
             android:textColor="@android:color/holo_purple"
             android:textAlignment="center"
             android:textSize="30sp"
@@ -31,7 +31,7 @@
             android:paddingTop="15dp"
             android:paddingEnd="15dp"
             android:paddingStart="10dp"
-            android:text="Description"
+            android:text="@string/trip_description_list"
             android:textSize="15sp"
             android:textColor="@android:color/black"
             android:textStyle="bold"
@@ -43,7 +43,9 @@
             android:id="@+id/tripRowId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ID#" />
+            android:text="@string/trip_row_id"
+            android:longClickable="true"
+            android:textIsSelectable="true"/>
     </LinearLayout>
 
 

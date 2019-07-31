@@ -27,4 +27,8 @@
     <string name="back_to_details">Back to Trip Details</string>
     <string name="back_to_list">Your Trips</string>
     <string name="back_to_search">Back to Search</string>
+    <string name="user_close">X</string>
+    <string name="trip_name_list">Name</string>
+    <string name="trip_description_list">Description</string>
+    <string name="trip_row_id">ID#</string>
 </resources>
