@@ -84,9 +84,10 @@ public class FindTripActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 findTrip();
-                startActivity(new Intent(FindTripActivity.this,
-                        TripListActivity.class));
-                finish();
+                findTripId.setText("");
+//                startActivity(new Intent(FindTripActivity.this,
+//                        TripListActivity.class));
+//                finish();
             }
         });
     }

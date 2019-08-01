@@ -121,8 +121,6 @@ public class TripListActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
-
         // Get all trips from Firestore
         collectionReference.whereArrayContains("users", TripApi.getInstance()
             .getUserId())

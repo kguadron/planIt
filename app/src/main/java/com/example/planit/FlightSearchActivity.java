@@ -125,6 +125,20 @@ public class FlightSearchActivity extends AppCompatActivity implements View.OnCl
         final int month = calendar.get(Calendar.MONTH);
         final int day = calendar.get(Calendar.DAY_OF_MONTH);
 
+        originText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                closeKeyboard();
+            }
+        });
+
+        destinationText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                closeKeyboard();
+            }
+        });
+
 
         departureDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -317,8 +331,14 @@ public class FlightSearchActivity extends AppCompatActivity implements View.OnCl
 
 //        flightParams.add(new FlightParams("origin", origin));
         flightParams.add(new FlightParams("origin", "SEA"));
-//        flightParams.add(new FlightParams("destination", destination));
-        flightParams.add(new FlightParams("destination", "JFK"));
+
+        if (destination.equals("New York John F. Kennedy, NY (JFK)")) {
+            flightParams.add(new FlightParams("destination", "JFK"));
+        } else if (destination.equals("New York Newark, NJ (EWR)")) {
+            flightParams.add(new FlightParams("destination", "EWR"));
+        } else {
+            flightParams.add(new FlightParams("destination", destination));
+        }
         flightParams.add(new FlightParams("departureDate", departure));
 
         if (!TextUtils.isEmpty(returnDate.getText().toString().trim())) {
@@ -463,7 +483,7 @@ public class FlightSearchActivity extends AppCompatActivity implements View.OnCl
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap();
-                headers.put("Authorization", "Bearer Oc1gAzArgm2cX4I9zYRvI5LtMA73");
+                headers.put("Authorization", "Bearer Ua9M2KSKLxRzsI5hYBjWou9GfdAT");
                 return headers;
             }
         };

@@ -93,6 +93,8 @@
         android:textAlignment="center"
         android:visibility="invisible"
         android:hint="@string/list_create_trip_hint"
+        android:textSize="20sp"
+        android:textColorHint="@android:color/darker_gray"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

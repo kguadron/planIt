@@ -12,11 +12,18 @@
     <item>New York, NY (Any)</item>
     <item>New York John F. Kennedy, NY (JFK)</item>
     <item>New York LaGuardia, NY (LGA)</item>
+    <item>New York Newark, NJ (EWR)</item>
     <item>Stewart International, NY (SWF)</item>
     <item>Buffalo Niagara, NY (BUF)</item>
     <item>Albany, NY (ALB)</item>
     <item>Rochester, NY (ROC)</item>
     <item>Syracuse, NY (SYR)</item>
     <item>Westchester County, NY (HPN)</item>
+    <item>New Delhi (DEL)</item>
+    <item>New Orleans, LA (Any)</item>
+    <item>New Orleans Louis Armstrong, LA (MSY)</item>
+    <item>New Orleans Lakefront, LA (NEW)</item>
+    <item>New Haven, CT (HVN)</item>
+
 </string-array>
 </resources>

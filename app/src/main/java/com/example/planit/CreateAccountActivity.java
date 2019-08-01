@@ -3,6 +3,7 @@ package com.example.planit;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -83,7 +84,7 @@ public class  CreateAccountActivity extends AppCompatActivity {
                     String email = emailEditText.getText().toString().trim();
                     String password = passwordEditText.getText().toString().trim();
                     String username = userNameEditText.getText().toString().trim();
-
+                    Log.d("ZACCOUNT", "onClick: inside the click");
                     createUserEmailAccount(email, password, username);
 
                 } else {
@@ -108,8 +109,10 @@ public class  CreateAccountActivity extends AppCompatActivity {
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
+                            Log.d("ZACCOUNT", "onComplete: inside the complete listener");
                             if (task.isSuccessful()) {
                                  // take user and add to CreateTripActivity
+                                Log.d("ZACCOUNT", "onSuccess: inside the success");
                                 currentUser = firebaseAuth.getCurrentUser();
                                 assert currentUser != null;
                                 final String currentUserId = currentUser.getUid();
@@ -128,7 +131,9 @@ public class  CreateAccountActivity extends AppCompatActivity {
                                                         .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                                             @Override
                                                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                                Log.d("ZACCOUNT", "onComplete: inside adding to db");
                                                                 if (Objects.requireNonNull(task.getResult()).exists()) {
+                                                                    Log.d("ZACCOUNT", "inside if it exists");
                                                                     progressBar.setVisibility(View.INVISIBLE);
                                                                     String name = task.getResult()
                                                                             .getString("username");
@@ -155,7 +160,7 @@ public class  CreateAccountActivity extends AppCompatActivity {
                                         .addOnFailureListener(new OnFailureListener() {
                                             @Override
                                             public void onFailure(@NonNull Exception e) {
-
+                                                Log.d("ZACCOUNT", "onFailure: " + e.getMessage());
                                             }
                                         });
 
